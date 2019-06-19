@@ -1,12 +1,16 @@
 
 
 # How to fuse odometry & IMU with *robot_localization*
-
 ## What is the *robot_localization* package
 
 It is a package for mixing different sources of odometry into a more stable one.
 
+* [2015 ROSCON Talk](https://vimeo.com/142624091)  and [Paper](http://docs.ros.org/melodic/api/robot_localization/html/_downloads/robot_localization_ias13_revised.pdf) by Tom Moore (author of robot_localization)
+* [ROS Wiki](http://docs.ros.org/melodic/api/robot_localization/html/index.html)
+* Source: [ROS Developers Live-Class #51](https://www.youtube.com/watch?time_continue=1234&v=QZ5q59H2qaI)
+
 ![enter image description here](https://github.com/rwbot/cheatsheets/blob/master/img/robot_localization_graph.png?raw=true)
+
 
 
 ## Configuring the *robot_localization* package
@@ -43,7 +47,7 @@ publish_tf: false
 odom_frame: odom
 base_link_frame: base_link
 world_frame: odom
-map_frame: odom
+#map_frame: odom
 
 # Complete the odom0 configuration
 odom0: /odom0
@@ -100,19 +104,11 @@ initial_estimate_covariance: [1e-9, 0,    0,    0,    0,    0,    0,    0,    0,
 ### The reference frames
 
 * **base_link_frame**: It is the frame that is in the robot itself, to which any sensor can be referenced. It is usually located in the center of the robot. It travels with it.
-
-
 * **odom_frame**: It is the frame that is used to report the odometry.
-
-
 * **map_frame**: It is the frame that is used to report a global position from a system that knows where the robot is. For instance an AMCL system. If you are not using any external Localization system, the this can be ignored.
-
-
 * **world_frame**: It is the frame that references which one of the two previous frames is going to be used to get the absolute coordinates of the robot in the world.
 
 In our case that would be:
-
-
 ```yaml
 base_link_frame: base_link
 odom_frame: odom
@@ -120,23 +116,20 @@ world_frame: odom
 ```
 
 ### Adding sensors to fuse
-
 Any sensor that produces messages in any of these formats, can be fed to the robot_localization package to estimate the robot position.
 
 * <a href="http://docs.ros.org/melodic/api/nav_msgs/html/msg/Odometry.html" target="_blank">nav_msgs/Odometry</a>
-
 * <a href="http://docs.ros.org/melodic/api/nav_msgs/html/msg/Odometry.html" target="_blank">sensor_msgs/Imu</a>
-
 * <a href="http://docs.ros.org/lunar/api/geometry_msgs/html/msg/PoseWithCovarianceStamped.html" target="_blank">geometry_msgs/PoseWithCovarianceStamped</a>
-
 * <a href="http://docs.ros.org/melodic/api/geometry_msgs/html/msg/TwistWithCovarianceStamped.html" target="_blank">geometry_msgs/TwistWithCovarianceStamped</a>
 
-And, most importantly, you can have many of each sensor. This means that, for instance, you can have the odometry provided by two different sensors (wheel encoders and visual odometry), or two different Inertial Measurement Units.
+And, most importantly, you can have many of each sensor. This means that, for instance, you can have the odometry provided by two different sensors (wheel encoders and visual odometry), or two different Inertial Measurement Units. 
+
+**NOTE:** Since the configuration of physically mounting an IMU onto a robot, can be different for each IMU and robot, ensure that a `base_link` ---> `imu_link` transform is set and accurate. See [Preparing Your Data for Use with robot_localization](http://docs.ros.org/melodic/api/robot_localization/html/preparing_sensor_data.html)
 
 #### a. First indicate the topic of the sensor
 
 In our case are:
-
 * /noisy_odom
 * /imu/data
 
@@ -167,11 +160,11 @@ So, in this case, the values we are taking into account for the Kalman Filter ar
 
 
 ```yaml
-odom0_config: [false, false, false
- false, false, false
- true,  true,  false
- false, false, true
- false, false, false,]
+odom0_config: [false, false, false,
+			   false, false, false,
+			   true,  true,  false,
+			   false, false, true,
+			   false, false, false,]
 ```
 
 And for the IMU data:
