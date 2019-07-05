@@ -19,7 +19,11 @@ xev -event mouse | grep Button --before-context=1 --after-context=2
 xbindkeys --defaults > $HOME/.xbindkeysrc  
 ```
 ### **4. Add desired commands** 
-
+Open the config file
+```
+gedit $HOME/.xbindkeysrc
+```
+Add the combinations of buttons and keys for the functionality you want, ex:
 ```bash
 # Scroll Wheel Down Click = CTRL+W = Close TAB 
 "xte 'keydown Control_L' 'key w' 'keyup Control_L'"
