@@ -32,7 +32,7 @@ std::cout << "The XYZ coordinates of the centroid are: ("
 
 ### Always `#include` the `pcl_ros/point_cloud.h` file in the ROS node
 ```cpp
-#include "pcl_ros/point_cloud.h
+#include <pcl_ros/point_cloud.h>
 ```
 
 ### Convert ROS->PCL
