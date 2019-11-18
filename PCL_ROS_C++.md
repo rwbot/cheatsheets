@@ -40,14 +40,14 @@ std::cout << "The XYZ coordinates of the centroid are: ("
 sensor_msgs::PointCloud2::Ptr cloudROSPtr (new sensor_msgs::PointCloud2);
 
 pcl::PointCloud<PointT>  cloudPCL;
-pcl::fromROSMsg (*cloudROSPtr, cloud);
-pcl::PointCloud<PointT>::Ptr cloudPCLPtr (new pcl::PointCloud<PointT> (cloud));
+pcl::fromROSMsg (*cloudROSPtr, cloudPCL);
+pcl::PointCloud<PointT>::Ptr cloudPCLPtr (new pcl::PointCloud<PointT> (cloudPCL));
 ```
 
 ### Convert PCL->ROS
 ```cpp
 pcl::PointCloud<PointT> cloudPCL;
-pcl::PointCloud<PointT>::Ptr cloudPCLPtr (new pcl::PointCloud<PointT>  (cloud));
+pcl::PointCloud<PointT>::Ptr cloudPCLPtr (new pcl::PointCloud<PointT>  (cloudPCL));
 
 sensor_msgs::PointCloud2::Ptr cloudROSPtr (new sensor_msgs::PointCloud2);
 pcl::toROSMsg(*cloudPCLPtr, *cloudROSPtr);
@@ -104,7 +104,7 @@ void  cloud_cb(const  sensor_msgs::PointCloud2ConstPtr  &msg){
   *  ========================================*/
   pcl::PointCloud<PointT>  cloudPCL;
   pcl::fromROSMsg  (*msg,  cloudPCL);
-  pcl::PointCloud<PointT>::Ptr  cloudPCLPtr  (new  pcl::PointCloud<PointT>  (cloud));
+  pcl::PointCloud<PointT>::Ptr  cloudPCLPtr  (new  pcl::PointCloud<PointT>  (cloudPCL));
 
   // ..........
 
