@@ -7,10 +7,7 @@
 sudo apt-get install xbindkeys xautomation x11-utils
 ```
 ### **2. Identify ID of desired buttons**
-```
-xev 	
-```
-Or to isolate only mouse button events
+`xev` dumps any and all events from the display, so isolate only mouse button events
 ```
 xev -event mouse | grep Button --before-context=1 --after-context=2
 ```
